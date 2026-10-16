@@ -1,0 +1,1128 @@
+html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARQUITEK | Estudio de Arquitectura & Diseño Espacial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Editorial/Arquitectónico) & Plus Jakarta Sans (Técnico/Limpio) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#F9F8F6',
+                            100: '#F2EFE9',
+                            200: '#E6E1D6',
+                            300: '#D5CBB8',
+                            800: '#292724',
+                            900: '#181615',
+                        },
+                        terracotta: {
+                            500: '#B85D3B',
+                            600: '#9E4B2C',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados para estética arquitectónica */
+        body {
+            background-color: #F9F8F6;
+            color: #181615;
+            overflow-x: hidden;
+        }
+        
+        .arch-grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(24, 22, 21, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(24, 22, 21, 0.04) 1px, transparent 1px);
+        }
+
+        /* Ocultar barra de scroll en modales pero permitir desplazamiento */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animación suave para las tarjetas */
+        .project-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+        }
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-terracotta-500 selection:text-white arch-grid-bg">
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-stone-50/90 backdrop-blur-md border-b border-stone-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-stone-900 text-stone-50 flex items-center justify-center rounded-lg font-serif text-xl tracking-widest group-hover:bg-terracotta-500 transition-colors">
+                        A
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-2xl tracking-[0.2em] font-semibold text-stone-900 leading-none">ARQUITEK</span>
+                        <span class="text-[10px] tracking-[0.25em] uppercase text-stone-500 mt-1">Arq. Elena Vázquez</span>
+                    </div>
+                </a>
+
+                <!-- Enlaces Desktop -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-stone-700">
+                    <a href="#inicio" class="hover:text-terracotta-500 transition-colors py-2">Inicio</a>
+                    <a href="#semblanza" class="hover:text-terracotta-500 transition-colors py-2">Semblanza & Influencia</a>
+                    <a href="#proyectos" class="hover:text-terracotta-500 transition-colors py-2">Catálogo de Proyectos</a>
+                    <a href="#proceso" class="hover:text-terracotta-500 transition-colors py-2">Metodología</a>
+                    <a href="#contacto" class="px-5 py-2.5 bg-stone-900 text-stone-50 rounded-lg hover:bg-terracotta-500 transition-colors flex items-center gap-2 text-xs uppercase tracking-wider">
+                        <span>Cotizar Proyecto</span>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </a>
+                </nav>
+
+                <!-- Botón Menú Móvil -->
+                <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-lg text-stone-800 hover:bg-stone-200/60 focus:outline-none" aria-label="Abrir menú">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú Desplegable Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-b border-stone-200 px-6 pt-4 pb-6 space-y-3 shadow-xl">
+            <a href="#inicio" class="mobile-link block py-2.5 text-base font-medium text-stone-800 border-b border-stone-200/60">Inicio</a>
+            <a href="#semblanza" class="mobile-link block py-2.5 text-base font-medium text-stone-800 border-b border-stone-200/60">Semblanza e Influencia</a>
+            <a href="#proyectos" class="mobile-link block py-2.5 text-base font-medium text-stone-800 border-b border-stone-200/60">Catálogo de Proyectos</a>
+            <a href="#proceso" class="mobile-link block py-2.5 text-base font-medium text-stone-800 border-b border-stone-200/60">Metodología</a>
+            <div class="pt-2">
+                <a href="#contacto" class="mobile-link w-full py-3 bg-terracotta-500 text-white rounded-lg font-medium flex items-center justify-center gap-2 shadow-md">
+                    <i data-lucide="message-Square" class="w-4 h-4"></i>
+                    <span>Consulta vía WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. SECCIÓN HERO / INICIO -->
+    <section id="inicio" class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Columna de Texto -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-200/80 text-stone-800 text-xs uppercase tracking-widest font-medium">
+                        <span class="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse"></span>
+                        Estudio de Arquitectura Contemporánea
+                    </div>
+
+                    <h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal text-stone-900 leading-[1.08] tracking-tight">
+                        Espacios que dialogan con la <span class="italic font-normal text-terracotta-500">luz, la tierra</span> y el tiempo.
+                    </h1>
+
+                    <p class="text-stone-600 text-base sm:text-lg max-w-2xl leading-relaxed font-light">
+                        En <strong class="font-medium text-stone-900">ARQUITEK</strong> transformamos ideas en obras habitables de alto valor estético y estructural. Liderado por la Arq. Elena Vázquez, creamos arquitectura honesta que respeta su contexto natural y eleva la experiencia humana.
+                    </p>
+
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                        <a href="#proyectos" class="px-7 py-4 bg-stone-900 text-stone-50 rounded-xl font-medium text-sm tracking-wide hover:bg-stone-800 transition-all flex items-center justify-center gap-3 shadow-lg shadow-stone-900/10">
+                            <span>Explorar Catálogo</span>
+                            <i data-lucide="compass" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#contacto" class="px-7 py-4 bg-white border border-stone-300 text-stone-900 rounded-xl font-medium text-sm tracking-wide hover:border-terracotta-500 hover:text-terracotta-600 transition-all flex items-center justify-center gap-3">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i>
+                            <span>Agendar Diagnóstico por WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <!-- Indicadores / Métricas -->
+                    <div class="pt-8 grid grid-cols-3 gap-6 border-t border-stone-200/90 max-w-lg">
+                        <div>
+                            <p class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900">12+</p>
+                            <p class="text-xs uppercase tracking-wider text-stone-500 mt-1">Años de Trayectoria</p>
+                        </div>
+                        <div>
+                            <p class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900">48</p>
+                            <p class="text-xs uppercase tracking-wider text-stone-500 mt-1">Proyectos Construidos</p>
+                        </div>
+                        <div>
+                            <p class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900">6</p>
+                            <p class="text-xs uppercase tracking-wider text-stone-500 mt-1">Premios Nacionales</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna de Imagen Principal Arquitectónica -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-200 aspect-[4/5] bg-stone-200">
+                        <img 
+                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" 
+                            alt="Casa Bruma por ARQUITEK" 
+                            class="w-full h-full object-cover"
+                            onerror="this.src='https://placehold.co/800x1000/292724/F9F8F6?text=ARQUITEK'"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-transparent to-transparent"></div>
+                        
+                        <!-- Etiqueta de Obra Destacada -->
+                        <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-stone-900/80 backdrop-blur-md text-stone-50 border border-stone-700/60 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-terracotta-500 font-semibold block">Obra Destacada 2025</span>
+                                <p class="font-serif text-lg">Residencia Piedra & Agua — Valle de Bravo</p>
+                            </div>
+                            <button onclick="openProjectModal(1)" class="p-2.5 bg-stone-50 text-stone-900 rounded-lg hover:bg-terracotta-500 hover:text-white transition-colors" title="Ver detalles del proyecto">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Detalle técnico flotante -->
+                    <div class="hidden sm:flex absolute -top-6 -left-8 bg-stone-50 p-4 rounded-xl shadow-lg border border-stone-200 items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center">
+                            <i data-lucide="drafting-compass" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-stone-900">Diseño Bioclimático</p>
+                            <p class="text-[11px] text-stone-500">Certificación sustentable & pasiva</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. SECCIÓN SEMBLANZA E INFLUENCIA -->
+    <section id="semblanza" class="py-20 md:py-28 bg-stone-100/80 border-y border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado de Sección -->
+            <div class="max-w-3xl mb-16">
+                <span class="text-xs uppercase tracking-[0.25em] text-terracotta-600 font-semibold block mb-2">01 / Dirección & Filosofía</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-stone-900 font-normal leading-tight">
+                    Semblanza Profesional & Genealogía Creativa
+                </h2>
+            </div>
+
+            <!-- Biografía + Retrato de la Arquitecta -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-20">
+                
+                <!-- Retrato y Ficha Curricular -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/5] bg-stone-300 border border-stone-200">
+                        <img 
+                            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=80" 
+                            alt="Arq. Elena Vázquez - Fundadora de ARQUITEK" 
+                            class="w-full h-full object-cover"
+                            onerror="this.src='https://placehold.co/700x850/292724/F9F8F6?text=Arq.+Elena+Vazquez'"
+                        >
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-900/90 via-stone-900/40 to-transparent p-6 text-white">
+                            <h3 class="font-serif text-2xl font-medium">Arq. Elena Vázquez Morales</h3>
+                            <p class="text-xs uppercase tracking-widest text-stone-300 mt-1">Fundadora & Directora de Taller en ARQUITEK</p>
+                        </div>
+                    </div>
+
+                    <!-- Credenciales Académicas -->
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200/80 space-y-4">
+                        <h4 class="text-xs font-semibold uppercase tracking-widest text-stone-500">Formación & Credenciales</h4>
+                        <ul class="space-y-3 text-sm text-stone-700">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="award" class="w-4 h-4 text-terracotta-500 shrink-0 mt-1"></i>
+                                <span><strong>Maestría en Arquitectura Avanzada y Paisaje</strong> — Universitat Politècnica de Catalunya (ETSAB), Barcelona.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="graduation-cap" class="w-4 h-4 text-terracotta-500 shrink-0 mt-1"></i>
+                                <span><strong>Licenciatura en Arquitectura con Mención Honorífica</strong> — Facultad de Arquitectura, UNAM.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="building-2" class="w-4 h-4 text-terracotta-500 shrink-0 mt-1"></i>
+                                <span><strong>Miembro de Número</strong> — Colegio de Arquitectos y Academia Nacional de Arquitectura.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Texto de Semblanza e Influencias -->
+                <div class="lg:col-span-7 space-y-8">
+                    <!-- Cita Filosófica -->
+                    <blockquote class="p-6 sm:p-8 bg-stone-900 text-stone-50 rounded-2xl shadow-lg relative overflow-hidden">
+                        <span class="font-serif text-8xl text-stone-700/40 absolute -top-4 left-4 select-none">“</span>
+                        <p class="font-serif text-2xl sm:text-3xl italic leading-relaxed relative z-10">
+                            La arquitectura no debe imponerse sobre el paisaje con estridencia; debe surgir de él con la serenidad de una roca tallada por la luz y el viento.
+                        </p>
+                        <footer class="mt-4 text-xs uppercase tracking-widest text-terracotta-500 font-semibold">
+                            — Manifiesto de Diseño ARQUITEK
+                        </footer>
+                    </blockquote>
+
+                    <!-- Narrativa Biográfica -->
+                    <div class="space-y-4 text-stone-700 leading-relaxed text-base">
+                        <h3 class="font-serif text-3xl text-stone-900 font-medium">Semblanza</h3>
+                        <p>
+                            Con más de doce años proyectando y dirigiendo obras en México y Europa, la arquitecta <strong>Elena Vázquez</strong> fundó <strong>ARQUITEK</strong> en 2016 bajo la premisa de reconciliar la precisión tectónica contemporánea con la calidez artesanal de los materiales vernáculos.
+                        </p>
+                        <p>
+                            Antes de establecer su propia firma, colaboró en talleres de renombre internacional en Ciudad de México, Oporto y Barcelona, perfeccionando una metodología donde cada proyecto se aborda desde su topografía, asoleamiento, acústica y memoria cultural. Su obra abarca desde residencias privadas en entornos boscosos y costeros hasta complejos culturales, boutiques y regeneración urbana.
+                        </p>
+                    </div>
+
+                    <!-- Pilares de Influencia Arquitectónica -->
+                    <div class="pt-4">
+                        <h3 class="font-serif text-3xl text-stone-900 font-medium mb-2">Influencias y Referentes</h3>
+                        <p class="text-sm text-stone-600 mb-6">
+                            El lenguaje formal de ARQUITEK se nutre de cuatro corrientes fundamentales que convergen en cada plano y detalle constructivo:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Influencia 1 -->
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 hover:border-terracotta-500 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-terracotta-600">Arquitectura Emocional</span>
+                                    <i data-lucide="sun" class="w-4 h-4 text-stone-400"></i>
+                                </div>
+                                <h4 class="font-serif text-xl font-semibold text-stone-900 mb-1">Legado de Luis Barragán</h4>
+                                <p class="text-xs text-stone-600 leading-relaxed">
+                                    El manejo dramático de la penumbra y la luz natural indirecta, los muros de escala monumental, el murmullo del agua como centro espiritual del patio y la serenidad espacial.
+                                </p>
+                            </div>
+
+                            <!-- Influencia 2 -->
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 hover:border-terracotta-500 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-terracotta-600">Atmósferas & Materia</span>
+                                    <i data-lucide="layers" class="w-4 h-4 text-stone-400"></i>
+                                </div>
+                                <h4 class="font-serif text-xl font-semibold text-stone-900 mb-1">Fenomenología de Zumthor</h4>
+                                <p class="text-xs text-stone-600 leading-relaxed">
+                                    Honestidad constructiva absoluta: piedra volcánica sin artificios, concreto aparente entablillado, maderas certificadas y materiales que envejecen con dignidad.
+                                </p>
+                            </div>
+
+                            <!-- Influencia 3 -->
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 hover:border-terracotta-500 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-terracotta-600">Geometría & Vacío</span>
+                                    <i data-lucide="box" class="w-4 h-4 text-stone-400"></i>
+                                </div>
+                                <h4 class="font-serif text-xl font-semibold text-stone-900 mb-1">Minimalismo de Tadao Ando</h4>
+                                <p class="text-xs text-stone-600 leading-relaxed">
+                                    Pureza geométrica que enmarca fragmentos del cielo y la vegetación circundante, generando recorridos arquitectónicos contemplativos y orden estructural.
+                                </p>
+                            </div>
+
+                            <!-- Influencia 4 -->
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 hover:border-terracotta-500 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-terracotta-600">Raíz & Sustentabilidad</span>
+                                    <i data-lucide="leaf" class="w-4 h-4 text-stone-400"></i>
+                                </div>
+                                <h4 class="font-serif text-xl font-semibold text-stone-900 mb-1">Tradición Vernácula Mexicana</h4>
+                                <p class="text-xs text-stone-600 leading-relaxed">
+                                    Uso de tierras compactadas (tapial), celosías de barro artesanal para ventilación cruzada pasiva y captación pluvial integrada en el diseño arquitectónico.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECCIÓN CATÁLOGO DE PROYECTOS -->
+    <section id="proyectos" class="py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Cabecera y Filtros -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.25em] text-terracotta-600 font-semibold block mb-2">02 / Obra Seleccionada</span>
+                    <h2 class="font-serif text-4xl sm:text-5xl text-stone-900 font-normal">
+                        Catálogo de Proyectos
+                    </h2>
+                </div>
+
+                <!-- Botones de Filtro por Categoría -->
+                <div class="flex flex-wrap gap-2" id="filter-container">
+                    <button onclick="filterProjects('Todos')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-900 text-stone-50 shadow-sm" data-category="Todos">
+                        Todos (8)
+                    </button>
+                    <button onclick="filterProjects('Residencial')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-200/70 text-stone-700 hover:bg-stone-300/70" data-category="Residencial">
+                        Residencial
+                    </button>
+                    <button onclick="filterProjects('Comercial')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-200/70 text-stone-700 hover:bg-stone-300/70" data-category="Comercial">
+                        Comercial
+                    </button>
+                    <button onclick="filterProjects('Interiorismo')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-200/70 text-stone-700 hover:bg-stone-300/70" data-category="Interiorismo">
+                        Interiorismo
+                    </button>
+                    <button onclick="filterProjects('Urbano')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-200/70 text-stone-700 hover:bg-stone-300/70" data-category="Urbano">
+                        Urbano
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid de Proyectos (Renderizado Dinámicamente con JS) -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Los proyectos se inyectan vía JavaScript -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN COMPLEMENTARIA: METODOLOGÍA DE TRABAJO -->
+    <section id="proceso" class="py-16 bg-stone-900 text-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs uppercase tracking-[0.25em] text-terracotta-500 font-semibold block mb-2">03 / Cómo Trabajamos</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal">Del Primer Trazo a la Entrega de Llaves</h2>
+                <p class="text-stone-400 text-sm mt-2">Acompañamiento integral con certeza presupuestal y rigor técnico en cada etapa.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 rounded-2xl bg-stone-800/70 border border-stone-700/70">
+                    <span class="font-serif text-3xl text-terracotta-500 font-semibold">01.</span>
+                    <h3 class="font-serif text-xl mt-3 mb-2 font-medium">Diagnóstico & Sitio</h3>
+                    <p class="text-xs text-stone-300 leading-relaxed">Entrevista inicial, análisis topográfico, estudio de asoleamiento, normatividad y definición de programa arquitectónico.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-stone-800/70 border border-stone-700/70">
+                    <span class="font-serif text-3xl text-terracotta-500 font-semibold">02.</span>
+                    <h3 class="font-serif text-xl mt-3 mb-2 font-medium">Anteproyecto & 3D</h3>
+                    <p class="text-xs text-stone-300 leading-relaxed">Propuesta conceptual, plantas arquitectónicas, recorridos virtuales fotorrealistas y selección de paleta matérica.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-stone-800/70 border border-stone-700/70">
+                    <span class="font-serif text-3xl text-terracotta-500 font-semibold">03.</span>
+                    <h3 class="font-serif text-xl mt-3 mb-2 font-medium">Proyecto Ejecutivo</h3>
+                    <p class="text-xs text-stone-300 leading-relaxed">Ingenierías estructurales, instalaciones hidrosanitarias, eléctricas, planos de carpintería, iluminación y presupuesto paramétrico.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-stone-800/70 border border-stone-700/70">
+                    <span class="font-serif text-3xl text-terracotta-500 font-semibold">04.</span>
+                    <h3 class="font-serif text-xl mt-3 mb-2 font-medium">Dirección de Obra</h3>
+                    <p class="text-xs text-stone-300 leading-relaxed">Ejecución y supervisión arquitectónica rigurosa en sitio, control de calidad de acabados y entrega llave en mano.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SECCIÓN DE CAPTACIÓN POR WHATSAPP -->
+    <section id="contacto" class="py-20 md:py-28 bg-stone-100/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Columna Izquierda: Información de Contacto & Respuesta Rápida -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <span class="text-xs uppercase tracking-[0.25em] text-terracotta-600 font-semibold block mb-2">04 / Iniciar Conversación</span>
+                        <h2 class="font-serif text-4xl sm:text-5xl text-stone-900 font-normal leading-tight">
+                            Cotiza tu Proyecto Directamente por WhatsApp
+                        </h2>
+                        <p class="text-stone-600 text-sm sm:text-base mt-4 leading-relaxed">
+                            Sabemos que tu tiempo es valioso. Configura los datos básicos de tu proyecto en el formulario interactivo y nuestro sistema generará un <strong>brief técnico estructurado</strong> para iniciar la conversación directa con la Arq. Elena Vázquez en WhatsApp.
+                        </p>
+                    </div>
+
+                    <!-- Botones de Consulta Rápida en 1 Clic -->
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm space-y-4">
+                        <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-500">
+                            <i data-lucide="zap" class="w-4 h-4 text-terracotta-500"></i>
+                            <span>Atajos de Consulta Rápida (1 Clic)</span>
+                        </div>
+                        <div class="space-y-2.5">
+                            <button onclick="quickWhatsApp('Hola Arq. Elena, me interesa agendar una llamada de diagnóstico para un proyecto Residencial desde cero.')" class="w-full text-left p-3.5 rounded-xl bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-500 transition-all flex items-center justify-between group">
+                                <span class="text-xs sm:text-sm font-medium text-stone-800 group-hover:text-emerald-900">🏡 Quiero diseñar y construir mi casa desde cero</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400 group-hover:text-emerald-600"></i>
+                            </button>
+                            <button onclick="quickWhatsApp('Hola Arq. Elena, busco asesoría de Interiorismo y Remodelación para un espacio existente.')" class="w-full text-left p-3.5 rounded-xl bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-500 transition-all flex items-center justify-between group">
+                                <span class="text-xs sm:text-sm font-medium text-stone-800 group-hover:text-emerald-900">✨ Busco remodelación o diseño de interiores</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400 group-hover:text-emerald-600"></i>
+                            </button>
+                            <button onclick="quickWhatsApp('Hola Arq. Elena, represento una marca/empresa y deseo cotizar un proyecto Comercial o Corporativo.')" class="w-full text-left p-3.5 rounded-xl bg-stone-50 hover:bg-emerald-50 border border-stone-200 hover:border-emerald-500 transition-all flex items-center justify-between group">
+                                <span class="text-xs sm:text-sm font-medium text-stone-800 group-hover:text-emerald-900">🏢 Proyecto para local comercial, restaurante u oficina</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400 group-hover:text-emerald-600"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Datos del Estudio -->
+                    <div class="space-y-4 pt-2 text-sm text-stone-700">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-stone-200 flex items-center justify-center shrink-0 text-stone-800">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-stone-900">Taller ARQUITEK</p>
+                                <p class="text-xs text-stone-600">Av. Presidente Masaryk 214, Piso 3, Polanco, CDMX / Proyectos en toda la República.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-stone-200 flex items-center justify-center shrink-0 text-stone-800">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-stone-900">Horario de Atención Personalizada</p>
+                                <p class="text-xs text-stone-600">Lunes a Viernes: 9:00 – 19:00 hrs | Sábados con cita previa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Configurador Interactivo de WhatsApp -->
+                <div class="lg:col-span-7">
+                    <div class="bg-white rounded-2xl shadow-xl border border-stone-200 p-6 sm:p-10">
+                        <div class="flex items-center justify-between pb-6 mb-6 border-b border-stone-100">
+                            <div>
+                                <h3 class="font-serif text-2xl font-semibold text-stone-900">Configurador de Proyecto</h3>
+                                <p class="text-xs text-stone-500 mt-0.5">Completa los campos para generar tu mensaje personalizado de WhatsApp</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                                <i data-lucide="message-square-Code" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+
+                        <form id="whatsapp-form" class="space-y-5" onsubmit="handleWhatsAppSubmit(event)">
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <!-- Nombre -->
+                                <div>
+                                    <label for="client-name" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Tu Nombre Completo *</label>
+                                    <input type="text" id="client-name" required placeholder="Ej. Carlos Mendoza" oninput="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                </div>
+
+                                <!-- Ubicación del Proyecto -->
+                                <div>
+                                    <label for="project-location" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Ciudad o Ubicación *</label>
+                                    <input type="text" id="project-location" required placeholder="Ej. Puebla, CDMX, Querétaro..." oninput="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <!-- Categoría de Proyecto -->
+                                <div>
+                                    <label for="project-type" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Tipo de Proyecto *</label>
+                                    <select id="project-type" onchange="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                        <option value="Residencial (Obra Nueva)">Residencial (Obra Nueva)</option>
+                                        <option value="Casa de Descanso / Campo">Casa de Descanso / Campo</option>
+                                        <option value="Interiorismo & Remodelación">Interiorismo & Remodelación</option>
+                                        <option value="Comercial / Boutique / Restaurante">Comercial / Boutique / Restaurante</option>
+                                        <option value="Diseño Urbano / Paisajismo">Diseño Urbano / Paisajismo</option>
+                                        <option value="Consultoría Arquitectónica">Consultoría Arquitectónica</option>
+                                    </select>
+                                </div>
+
+                                <!-- Superficie Aproximada -->
+                                <div>
+                                    <label for="project-area" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Superficie Estimada (m²)</label>
+                                    <select id="project-area" onchange="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                        <option value="Menos de 150 m²">Menos de 150 m²</option>
+                                        <option value="Entre 150 m² y 350 m²" selected>Entre 150 m² y 350 m²</option>
+                                        <option value="Entre 350 m² y 700 m²">Entre 350 m² y 700 m²</option>
+                                        <option value="Más de 700 m²">Más de 700 m²</option>
+                                        <option value="Aún por definir">Aún por definir</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Etapa actual / Plazo -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label for="project-stage" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Situación del Predio / Inmueble</label>
+                                    <select id="project-stage" onchange="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                        <option value="Ya cuento con el terreno / inmueble">Ya cuento con el terreno / inmueble</option>
+                                        <option value="Estoy en proceso de adquirirlo">Estoy en proceso de adquirirlo</option>
+                                        <option value="Busco asesoría para elegir terreno">Busco asesoría para elegir terreno</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="project-budget" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Alcance Requerido</label>
+                                    <select id="project-budget" onchange="updateWhatsAppPreview()" class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors">
+                                        <option value="Diseño Arquitectónico + Construcción">Diseño Arquitectónico + Construcción</option>
+                                        <option value="Solo Proyecto Ejecutivo y Renders">Solo Proyecto Ejecutivo y Renders</option>
+                                        <option value="Remodelación Integral Llave en Mano">Remodelación Integral Llave en Mano</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Detalles adicionales -->
+                            <div>
+                                <label for="project-notes" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">Cuéntanos tu visión o necesidades especiales</label>
+                                <textarea id="project-notes" rows="3" oninput="updateWhatsAppPreview()" placeholder="Ej. Queremos mucha iluminación natural, jardín central, estudio en planta baja..." class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-300 text-sm focus:outline-none focus:border-terracotta-500 transition-colors"></textarea>
+                            </div>
+
+                            <!-- Vista previa en vivo del mensaje de WhatsApp -->
+                            <div class="p-4 rounded-xl bg-emerald-950/5 border border-emerald-600/20">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        Vista Previa del Mensaje a Enviar:
+                                    </span>
+                                    <button type="button" onclick="copyPreviewMessage()" class="text-[11px] text-stone-500 hover:text-stone-900 underline">
+                                        Copiar texto
+                                    </button>
+                                </div>
+                                <p id="whatsapp-preview" class="text-xs text-stone-700 font-mono whitespace-pre-line leading-relaxed"></p>
+                            </div>
+
+                            <!-- Botón de Envío a WhatsApp -->
+                            <button type="submit" class="w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-3 text-sm uppercase tracking-wider">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.124.556 4.119 1.528 5.849l-1.528 5.581 5.715-1.499c1.678.902 3.593 1.419 5.631 1.419 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+                                </svg>
+                                <span>Enviar Proyecto por WhatsApp Ahora</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-stone-900 text-stone-400 py-14 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-stone-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-terracotta-500 text-white flex items-center justify-center rounded-lg font-serif text-xl">
+                        A
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl tracking-[0.2em] text-stone-50 font-semibold block leading-none">ARQUITEK</span>
+                        <span class="text-[11px] uppercase tracking-widest text-stone-500">Arquitectura, Interiorismo & Territorio</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-widest">
+                    <a href="#inicio" class="hover:text-stone-50 transition-colors">Inicio</a>
+                    <a href="#semblanza" class="hover:text-stone-50 transition-colors">Semblanza</a>
+                    <a href="#proyectos" class="hover:text-stone-50 transition-colors">Catálogo</a>
+                    <a href="#contacto" class="hover:text-stone-50 transition-colors">Contacto WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-stone-500 gap-4">
+                <p>© 2026 ARQUITEK Estudio de Arquitectura — Arq. Elena Vázquez. Todos los derechos reservados.</p>
+                <p>Diseñado con rigor tectónico y sensibilidad espacial.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE DETALLES DEL PROYECTO -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 md:p-10 bg-stone-900/80 backdrop-blur-sm">
+        <div class="bg-stone-50 w-full max-w-5xl rounded-2xl shadow-2xl border border-stone-200 overflow-hidden max-h-[90vh] flex flex-col animate-fadeIn">
+            
+            <!-- Barra Superior del Modal -->
+            <div class="flex items-center justify-between px-6 py-4 bg-white border-b border-stone-200 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span id="modal-category" class="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-terracotta-500/10 text-terracotta-600">
+                        Categoría
+                    </span>
+                    <span id="modal-code" class="text-xs font-mono text-stone-400">ARQ-001</span>
+                </div>
+                <button onclick="closeProjectModal()" class="p-2 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors" aria-label="Cerrar ventana">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Contenido Scrolleable del Modal -->
+            <div class="overflow-y-auto p-6 sm:p-8 space-y-8 no-scrollbar">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Galería de Imágenes del Proyecto -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="rounded-xl overflow-hidden aspect-[16/11] bg-stone-200 border border-stone-200">
+                            <img id="modal-main-img" src="" alt="Imagen del proyecto" class="w-full h-full object-cover transition-all duration-300">
+                        </div>
+                        <!-- Miniaturas -->
+                        <div id="modal-thumbnails" class="grid grid-cols-3 gap-3">
+                            <!-- Se inyectan vía JS -->
+                        </div>
+                    </div>
+
+                    <!-- Ficha Técnica y Descripción -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div>
+                            <h3 id="modal-title" class="font-serif text-3xl sm:text-4xl text-stone-900 font-medium leading-tight">
+                                Nombre del Proyecto
+                            </h3>
+                            <p id="modal-location-top" class="text-sm text-stone-500 flex items-center gap-1.5 mt-2">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-terracotta-500"></i>
+                                <span>Ubicación</span>
+                            </p>
+                        </div>
+
+                        <!-- Cuadrícula de Datos Técnicos -->
+                        <div class="grid grid-cols-2 gap-3 p-4 rounded-xl bg-stone-100 border border-stone-200/80 text-xs">
+                            <div>
+                                <span class="text-stone-400 uppercase tracking-wider block">Año de Obra</span>
+                                <strong id="modal-year" class="text-stone-900 text-sm font-semibold">2025</strong>
+                            </div>
+                            <div>
+                                <span class="text-stone-400 uppercase tracking-wider block">Área Construida</span>
+                                <strong id="modal-area" class="text-stone-900 text-sm font-semibold">450 m²</strong>
+                            </div>
+                            <div class="col-span-2 pt-2 border-t border-stone-200">
+                                <span class="text-stone-400 uppercase tracking-wider block">Materialidad Principal</span>
+                                <strong id="modal-materials" class="text-stone-800 font-medium">Concreto aparente, piedra basáltica y parota</strong>
+                            </div>
+                        </div>
+
+                        <!-- Memoria Descriptiva -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-semibold uppercase tracking-widest text-stone-400">Memoria Arquitectónica</h4>
+                            <p id="modal-description" class="text-sm text-stone-700 leading-relaxed"></p>
+                        </div>
+
+                        <!-- Botón CTA directo a WhatsApp para este proyecto -->
+                        <div class="pt-4 border-t border-stone-200">
+                            <button id="modal-whatsapp-btn" class="w-full py-3.5 px-5 bg-stone-900 hover:bg-emerald-600 text-white rounded-xl font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-md">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span>Cotizar un proyecto similar por WhatsApp</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN FLOTANTE DE WHATSAPP SIEMPRE VISIBLE CON WIDGET DE CAPTACIÓN RÁPIDA -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+        <!-- Popover de Asistente Rápido -->
+        <div id="floating-wa-card" class="hidden mb-3 w-80 bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden transition-all">
+            <div class="bg-stone-900 text-stone-50 p-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-terracotta-500 flex items-center justify-center font-serif font-semibold text-white">
+                            EV
+                        </div>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 border-2 border-stone-900 absolute bottom-0 right-0"></span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold leading-none">Arq. Elena Vázquez</p>
+                        <p class="text-[11px] text-emerald-400 mt-1">ARQUITEK • En línea en WhatsApp</p>
+                    </div>
+                </div>
+                <button onclick="toggleFloatingWA()" class="text-stone-400 hover:text-white">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="p-4 bg-stone-50 space-y-3">
+                <div class="bg-white p-3 rounded-xl rounded-tl-none border border-stone-200 text-xs text-stone-700 leading-relaxed shadow-sm">
+                    ¡Hola! 👋 Bienvenido a <strong>ARQUITEK</strong>. ¿En qué tipo de proyecto arquitectónico te gustaría que te apoyemos?
+                </div>
+                <div class="space-y-1.5">
+                    <button onclick="quickWhatsApp('Hola Arq. Elena, vengo de tu sitio web ARQUITEK y me gustaría recibir información sobre un proyecto arquitectónico.')" class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium flex items-center justify-center gap-2 transition-colors">
+                        <span>Iniciar Chat en WhatsApp</span>
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <a href="#contacto" onclick="toggleFloatingWA()" class="block text-center py-2 text-[11px] text-stone-600 hover:text-stone-900 font-medium">
+                        O abrir el Configurador de Proyecto →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón Circular Flotante -->
+        <button onclick="toggleFloatingWA()" class="group flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-xl hover:shadow-emerald-600/30 transition-all focus:outline-none" aria-label="Contacto rápido por WhatsApp">
+            <span class="hidden sm:inline-block pl-2 text-xs font-semibold uppercase tracking-wider">Atención WhatsApp</span>
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.124.556 4.119 1.528 5.849l-1.528 5.581 5.715-1.499c1.678.902 3.593 1.419 5.631 1.419 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- TOAST DE NOTIFICACIÓN PERSONALIZADO (Sin usar alert) -->
+    <div id="toast-notification" class="fixed top-24 right-6 z-50 hidden bg-stone-900 text-stone-50 px-5 py-3.5 rounded-xl shadow-xl border border-stone-700 flex items-center gap-3 text-xs">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+        <span id="toast-text">Acción completada</span>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        // Número de WhatsApp oficial del estudio (Configurable)
+        const ARQUITEK_WHATSAPP_NUMBER = "525512345678";
+
+        // Base de datos del Catálogo de Proyectos
+        const projectsData = [
+            {
+                id: 1,
+                code: "ARQ-01",
+                title: "Residencia Piedra & Agua",
+                category: "Residencial",
+                location: "Valle de Bravo, Estado de México",
+                year: "2025",
+                area: "540 m²",
+                materials: "Piedra braza local, concreto aparente entablillado y madera de oyamel",
+                description: "Emplazada en una ladera boscosa con vista al lago, esta vivienda se organiza en torno a un espejo de agua longitudinal que canaliza la brisa y refleja el follaje de los pinos. Los volúmenes en voladizo reducen la huella sobre el terreno natural en un 40%, integrando sistemas de captación pluvial y calefacción hidrónica solar.",
+                images: [
+                    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 2,
+                code: "ARQ-02",
+                title: "Pabellón Botánico & Café Ka'an",
+                category: "Comercial",
+                location: "Mérida, Yucatán",
+                year: "2024",
+                area: "320 m²",
+                materials: "Estuco de chukum artesanal, celosía de barro cocido y acero corten",
+                description: "Un espacio gastronómico y galería botánica que rescata una antigua casona mediante una intervención contemporánea reversible. Se diseñó una doble piel de celosías de barro que filtra el intenso sol peninsular, disminuyendo la temperatura interior hasta 5 °C de forma completamente pasiva.",
+                images: [
+                    "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 3,
+                code: "ARQ-03",
+                title: "Penthouse Lomas Altas",
+                category: "Interiorismo",
+                location: "Miguel Hidalgo, Ciudad de México",
+                year: "2025",
+                area: "290 m²",
+                materials: "Travertino Fiorito sin pulir, roble blanco ahumado y lino natural",
+                description: "Reconfiguración espacial completa de un departamento de dos niveles. Se eliminaron muros divisorios innecesarios para crear una planta libre articulada por un núcleo escultórico de madera de roble que oculta almacenamiento, cava y circulación vertical bajo luz cenital controlada.",
+                images: [
+                    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 4,
+                code: "ARQ-04",
+                title: "Corredor Cultural La Constancia",
+                category: "Urbano",
+                location: "Puebla, Puebla",
+                year: "2023",
+                area: "4,200 m²",
+                materials: "Adoquín de recinto volcánico, concreto lavado con agregados locales y vegetación endémica",
+                description: "Proyecto de regeneración de espacio público y paisajismo urbano que conecta antiguos recintos industriales con áreas verdes permeables. Incluye jardines de lluvia para infiltración de escorrentías, mobiliario urbano monolítico y una iluminación peatonal cálida libre de contaminación lumínica.",
+                images: [
+                    "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 5,
+                code: "ARQ-05",
+                title: "Casa Tierra Compactada",
+                category: "Residencial",
+                location: "San Miguel de Allende, Guanajuato",
+                year: "2024",
+                area: "410 m²",
+                materials: "Muros de tapial (tierra apisonada), cantera gris y viguería de pino",
+                description: "Una casa patio introvertida hacia la calle pero completamente abierta en su corazón interior hacia tres jardines desérticos. Sus muros de 50 cm de espesor construidos con la misma tierra excavada del predio proporcionan una inercia térmica excepcional durante todo el año.",
+                images: [
+                    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 6,
+                code: "ARQ-06",
+                title: "Showroom Atelier Cerámico",
+                category: "Comercial",
+                location: "Roma Norte, Ciudad de México",
+                year: "2025",
+                area: "185 m²",
+                materials: "Microcemento mineral, acero negro rolado en caliente y ladrillo recuperado",
+                description: "Espacio de exhibición comercial y taller diseñado como un lienzo silencioso donde las piezas de cerámica artesanal son las protagonistas. Los exhibidores modulares y la iluminación museográfica dirigible permiten transformar la galería para eventos editoriales.",
+                images: [
+                    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 7,
+                code: "ARQ-07",
+                title: "Loft Monolito Silente",
+                category: "Interiorismo",
+                location: "San Pedro Garza García, Nuevo León",
+                year: "2024",
+                area: "215 m²",
+                materials: "Concreto pulido, nogal americano y paneles acústicos de fieltro natural",
+                description: "Intervención de interiorismo residencial para un coleccionista de arte. Se diseñó un sistema de iluminación circadiana empotrada en plafones flotantes y mobiliario fijo de autor que integra sistemas de audio de alta fidelidad de manera invisible.",
+                images: [
+                    "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1600585152915-d208bec867a1?auto=format&fit=crop&w=1000&q=80"
+                ]
+            },
+            {
+                id: 8,
+                code: "ARQ-08",
+                title: "Plaza Mirador del Valle",
+                category: "Urbano",
+                location: "Oaxaca de Juárez, Oaxaca",
+                year: "2024",
+                area: "2,850 m²",
+                materials: "Piedra cantera verde, tierra estabilizada y estructura ligera de madera laminada",
+                description: "Equipamiento público comunitario y mirador paisajístico que articula senderos peatonales con un anfiteatro al aire libre. La intervención respeta la topografía original mediante terrazas escalonadas que controlan la erosión y celebran el horizonte montañoso.",
+                images: [
+                    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=1000&q=80"
+                ]
+            }
+        ];
+
+        // Renderizar catálogo de proyectos
+        function renderProjects(category = 'Todos') {
+            const grid = document.getElementById('projects-grid');
+            const filtered = category === 'Todos' 
+                ? projectsData 
+                : projectsData.filter(p => p.category === category);
+
+            grid.innerHTML = filtered.map(project => `
+                <article class="project-card group bg-white rounded-2xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl flex flex-col justify-between cursor-pointer" onclick="openProjectModal(${project.id})">
+                    <div>
+                        <div class="relative aspect-[4/3] overflow-hidden bg-stone-200">
+                            <img 
+                                src="${project.images[0]}" 
+                                alt="${project.title}" 
+                                class="project-img w-full h-full object-cover transition-transform duration-700"
+                                onerror="this.src='https://placehold.co/600x450/292724/F9F8F6?text=ARQUITEK'"
+                            >
+                            <div class="absolute top-4 left-4 flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-stone-900/85 text-stone-50 backdrop-blur-md">
+                                    ${project.category}
+                                </span>
+                            </div>
+                            <div class="absolute bottom-4 right-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md text-stone-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
+                                <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-center justify-between text-xs text-stone-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-terracotta-500"></i>
+                                    ${project.location}
+                                </span>
+                                <span class="font-mono">${project.year}</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-stone-900 group-hover:text-terracotta-600 transition-colors">
+                                ${project.title}
+                            </h3>
+                            <p class="text-xs text-stone-600 mt-2 line-clamp-2 leading-relaxed">
+                                ${project.description}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-3.5 bg-stone-50 border-t border-stone-100 flex items-center justify-between text-xs">
+                        <span class="text-stone-500">Área: <strong class="text-stone-800">${project.area}</strong></span>
+                        <span class="font-semibold text-terracotta-600 flex items-center gap-1">
+                            Ver Ficha Técnica
+                        </span>
+                    </div>
+                </article>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // Filtrar proyectos por categoría
+        function filterProjects(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.className = "filter-btn active px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-900 text-stone-50 shadow-sm";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all bg-stone-200/70 text-stone-700 hover:bg-stone-300/70";
+                }
+            });
+            renderProjects(category);
+        }
+
+        // Abrir Modal de Detalles del Proyecto
+        function openProjectModal(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+
+            document.getElementById('modal-category').textContent = project.category;
+            document.getElementById('modal-code').textContent = project.code;
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-location-top').innerHTML = `<i data-lucide="map-pin" class="w-4 h-4 text-terracotta-500"></i><span>${project.location}</span>`;
+            document.getElementById('modal-year').textContent = project.year;
+            document.getElementById('modal-area').textContent = project.area;
+            document.getElementById('modal-materials').textContent = project.materials;
+            document.getElementById('modal-description').textContent = project.description;
+
+            const mainImg = document.getElementById('modal-main-img');
+            mainImg.src = project.images[0];
+
+            // Renderizar miniaturas
+            const thumbsContainer = document.getElementById('modal-thumbnails');
+            thumbsContainer.innerHTML = project.images.map((imgUrl, idx) => `
+                <button onclick="changeModalImage('${imgUrl}')" class="rounded-lg overflow-hidden aspect-[16/10] border-2 ${idx === 0 ? 'border-terracotta-500' : 'border-transparent'} hover:border-terracotta-500 transition-all focus:outline-none">
+                    <img src="${imgUrl}" alt="Vista ${idx + 1}" class="w-full h-full object-cover">
+                </button>
+            `).join('');
+
+            // Configurar botón de WhatsApp específico para el proyecto abierto
+            const waBtn = document.getElementById('modal-whatsapp-btn');
+            waBtn.onclick = () => {
+                const msg = `Hola Arq. Elena, estuve explorando el catálogo de ARQUITEK y me encantó el proyecto "${project.title}" (${project.category} - ${project.area}). Me gustaría cotizar un proyecto con una estética o alcance similar.`;
+                quickWhatsApp(msg);
+            };
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function changeModalImage(imgUrl) {
+            document.getElementById('modal-main-img').src = imgUrl;
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cerrar modal haciendo clic fuera del contenedor
+        document.getElementById('project-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'project-modal') {
+                closeProjectModal();
+            }
+        });
+
+        // Construir el mensaje estructurado para WhatsApp en tiempo real
+        function buildStructuredWhatsAppMessage() {
+            const name = document.getElementById('client-name').value.trim() || "[Tu Nombre]";
+            const location = document.getElementById('project-location').value.trim() || "[Ciudad/Ubicación]";
+            const type = document.getElementById('project-type').value;
+            const area = document.getElementById('project-area').value;
+            const stage = document.getElementById('project-stage').value;
+            const scope = document.getElementById('project-budget').value;
+            const notes = document.getElementById('project-notes').value.trim();
+
+            let msg = `Hola Arq. Elena Vázquez, te contacto desde el portafolio web de *ARQUITEK*.\n\n`;
+            msg += `*SOLICITUD DE DIAGNÓSTICO ARQUITECTÓNICO:*\n`;
+            msg += `• *Cliente:* ${name}\n`;
+            msg += `• *Ubicación:* ${location}\n`;
+            msg += `• *Tipo de Proyecto:* ${type}\n`;
+            msg += `• *Superficie Estimada:* ${area}\n`;
+            msg += `• *Estado del Predio/Inmueble:* ${stage}\n`;
+            msg += `• *Alcance Buscado:* ${scope}`;
+
+            if (notes) {
+                msg += `\n• *Visión / Comentarios:* ${notes}`;
+            }
+
+            msg += `\n\n¿Qué disponibilidad tienes esta semana para una breve llamada inicial?`;
+            return msg;
+        }
+
+        function updateWhatsAppPreview() {
+            const previewEl = document.getElementById('whatsapp-preview');
+            previewEl.textContent = buildStructuredWhatsAppMessage();
+        }
+
+        // Manejar el envío del formulario hacia WhatsApp
+        function handleWhatsAppSubmit(event) {
+            event.preventDefault();
+            const message = buildStructuredWhatsAppMessage();
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${ARQUITEK_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            showToast("Abriendo WhatsApp con el resumen de tu proyecto...");
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Función para los botones de consulta rápida (1 Clic)
+        function quickWhatsApp(customText) {
+            const encoded = encodeURIComponent(customText);
+            const whatsappUrl = `https://wa.me/${ARQUITEK_WHATSAPP_NUMBER}?text=${encoded}`;
+            showToast("Conectando con WhatsApp de ARQUITEK...");
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Copiar el mensaje de vista previa al portapapeles
+        function copyPreviewMessage() {
+            const text = buildStructuredWhatsAppMessage();
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            showToast("Mensaje copiado al portapapeles");
+        }
+
+        // Alternar el widget flotante de WhatsApp
+        function toggleFloatingWA() {
+            const card = document.getElementById('floating-wa-card');
+            card.classList.toggle('hidden');
+        }
+
+        // Mostrar notificación tipo Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const textEl = document.getElementById('toast-text');
+            textEl.textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Control del menú móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Inicialización al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProjects('Todos');
+            updateWhatsAppPreview();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
